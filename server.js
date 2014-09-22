@@ -37,7 +37,7 @@ getOnlineStatus();
 var memberCount = 0;
 var memberCountDisplay = "0";
 function getGroupMemberCount() {
-	http.get("http://steamcommunity.com/gid/103582791436344514/memberslistxml/?xml=1", function(HTTPResponse) {
+	http.get("http://steamcommunity.com/gid/103582791436371782/memberslistxml/?xml=1", function(HTTPResponse) {
 		HTTPResponse.setEncoding("utf8");
 		var content = "";
 		HTTPResponse.on("data", function (chunk) {
@@ -63,7 +63,7 @@ setInterval(function () {
 
 // MongoDB connection stuff
 var MongoClient = require("mongodb").MongoClient;
-MongoClient.connect("mongodb://localhost:27017/gamerscoinbot", function(err, db) {
+MongoClient.connect("mongodb://localhost:27017/gamerscointipbotdb", function(err, db) {
 if (err)
 	throw err
 var Collections = {
@@ -92,8 +92,8 @@ app.route("/").get(function(request, response) {
 	});
 });
 
-app.route("/stats").get(function(request, response) {
-	response.render("stats", function(err, html) {
+app.route("/info").get(function(request, response) {
+	response.render("info", function(err, html) {
 		if (err) {
 			console.error(err);
 			return;
@@ -101,7 +101,7 @@ app.route("/stats").get(function(request, response) {
 		response.send(html);
 	});
 });
-app.route("/stats/data").get(function(request, response) {
+app.route("/info/data").get(function(request, response) {
 	var userStream = Collections.Users.find().sort({"_id": -1}).stream();
 	var tipStream = Collections.Tips.find().sort({"_id": -1}).stream();
 
@@ -159,7 +159,7 @@ app.route("/stats/data").get(function(request, response) {
 		});
 	}
 });
-app.route("/stats/donors").get(function(request, response) {
+app.route("/info/donors").get(function(request, response) {
 	Collections.Donations.find({}, {"_id": 0, "time": 0, "groupID": 0}).sort({"amount": -1}).toArray(function(err, arrayOfDonations) {
 		if (err) {
 			response.json({"status": "failure", "error": err});
@@ -215,7 +215,7 @@ app.route("/donors").get(function(request, response) {
 });
 
 app.all("/favicon.ico", function(request, response) {
-	response.sendfile("favicon.ico");
+	response.sendFile(__dirname + "/favicon.ico");
 });
 
 app.listen(8080);
