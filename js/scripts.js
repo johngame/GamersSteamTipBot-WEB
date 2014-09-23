@@ -2,16 +2,16 @@
 
 	$.ajax({
 		url: '/feed',
-		data: {getAddressBalance:'true',address:'DBepCzd6x28ybKdfKHfbzuXDYkrXuGLPnH'},
+		data: {getAddressBalance:'true',address:'GeZdCgZAkbYxVk6SVZUNgVa29JpGy8nZYZ'},
 		type: 'post',
 		success: function(data) {
-			$('#donation_balance').text(data + " Ɖ");
+			$('#donation_balance').text(data + " GMC");
 		}
 	});
 
 	$.ajax({ 
 		url: '/feed',
-		data: {getUserStatus:'getUserStatus',user_id:'dogetipbot'},
+		data: {getUserStatus:'getUserStatus',user_id:'Join us !!!'},
 		type: 'post',
 		success: function(data) {
 			$('#bot_status').addClass(data)
